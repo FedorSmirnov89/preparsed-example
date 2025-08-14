@@ -46,3 +46,9 @@ ls -lh target/release/parse_at_target
 ```
 
 I am getting a binary of around 2.3MiB on my machine for this exact case - a similar project compiled for an embedded platform requires about 480 KiB.
+
+### Option 2 - pre-parsing on a remote (powerful) node; running on the target
+
+#### Preparsing the module
+
+Go to the directory `preparse` and preparse the module by running `cargo run --release`. The preparsed module should be available under `preparse/preparsed.wi`.
