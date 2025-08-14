@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-wasmi = { git = "https://github.com/FedorSmirnov89/wasmi.git", rev = "e25791d6ea442b53955b55cc392faa026952a210", package = "wasmi", default-features = false }
+wasmi = { git = "https://github.com/FedorSmirnov89/wasmi.git", rev = "1957af0f9c2c9ad5e2860855a7b97a1582777f70", package = "wasmi", default-features = false }
 
 anyhow = "1.0.99"
 [profile.release]

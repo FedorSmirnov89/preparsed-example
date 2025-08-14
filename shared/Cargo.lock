@@ -49,7 +49,7 @@ checksum = "6980e8d7511241f8acf4aebddbb1ff938df5eebe98691418c4468d0b72a96a67"
 [[package]]
 name = "wasmi"
 version = "0.47.0"
-source = "git+https://github.com/FedorSmirnov89/wasmi.git?rev=e25791d6ea442b53955b55cc392faa026952a210#e25791d6ea442b53955b55cc392faa026952a210"
+source = "git+https://github.com/FedorSmirnov89/wasmi.git?rev=1957af0f9c2c9ad5e2860855a7b97a1582777f70#1957af0f9c2c9ad5e2860855a7b97a1582777f70"
 dependencies = [
  "arrayvec",
  "multi-stash",
@@ -63,12 +63,12 @@ dependencies = [
 [[package]]
 name = "wasmi_collections"
 version = "0.47.0"
-source = "git+https://github.com/FedorSmirnov89/wasmi.git?rev=e25791d6ea442b53955b55cc392faa026952a210#e25791d6ea442b53955b55cc392faa026952a210"
+source = "git+https://github.com/FedorSmirnov89/wasmi.git?rev=1957af0f9c2c9ad5e2860855a7b97a1582777f70#1957af0f9c2c9ad5e2860855a7b97a1582777f70"
 
 [[package]]
 name = "wasmi_core"
 version = "0.47.0"
-source = "git+https://github.com/FedorSmirnov89/wasmi.git?rev=e25791d6ea442b53955b55cc392faa026952a210#e25791d6ea442b53955b55cc392faa026952a210"
+source = "git+https://github.com/FedorSmirnov89/wasmi.git?rev=1957af0f9c2c9ad5e2860855a7b97a1582777f70#1957af0f9c2c9ad5e2860855a7b97a1582777f70"
 dependencies = [
  "libm",
 ]
@@ -76,7 +76,7 @@ dependencies = [
 [[package]]
 name = "wasmi_ir"
 version = "0.47.0"
-source = "git+https://github.com/FedorSmirnov89/wasmi.git?rev=e25791d6ea442b53955b55cc392faa026952a210#e25791d6ea442b53955b55cc392faa026952a210"
+source = "git+https://github.com/FedorSmirnov89/wasmi.git?rev=1957af0f9c2c9ad5e2860855a7b97a1582777f70#1957af0f9c2c9ad5e2860855a7b97a1582777f70"
 dependencies = [
  "wasmi_core",
 ]

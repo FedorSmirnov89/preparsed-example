@@ -6,6 +6,18 @@
 
 Contains Rust code that can be compiled to a Wasm module which represents something we would want to run on an embedded, low-resource target.
 
+### parse_at_target
+
+Crate representing the "current" way of running modules with wasmi: The module is provided as .wasm file and parsed/validated/translated at the target to generate the wasmi IR. It is then run by the target.
+
+### preparse
+
+Crate showing the part of the process which would be running on a node with more memory/processing power: "Pre-Parsing" a given module and serializing the wasmi IR into bytes that can be run by a target node without wasmi's parsing machinery
+
+### run_preparsed
+
+Crate representing the "firmware" of a node which is too resource-constrained to run the full wasmi machinery. Instead, it loads the serialized wasmi IR of a module, deserializes it, and runs the module.
+
 
 ## Running the example
 
