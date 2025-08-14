@@ -21,7 +21,7 @@ struct ModuleState {
 
 static STATE: Mutex<ModuleState> = Mutex::new(ModuleState { counter: 0 });
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "C" fn run() {
     log_msg("starting");
 

@@ -1,5 +1,5 @@
 // Import the host function for LED control
-extern "C" {
+unsafe extern "C" {
     fn set_led(led_on: u32);
 }
 
@@ -16,7 +16,7 @@ pub(super) fn set_led_state(state: LedState) {
     }
 }
 
-extern "C" {
+unsafe extern "C" {
     fn init_led(led_pin: u32);
 }
 
@@ -28,7 +28,7 @@ pub(super) fn init_output_pin(pin_number: u32) {
 }
 
 #[link(wasm_import_module = "logging")]
-extern "C" {
+unsafe extern "C" {
     fn log(buffer: *const u8, length: i32);
 }
 
