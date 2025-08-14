@@ -1,0 +1,13 @@
+[package]
+name = "parse_at_target"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.99"
+wasmi = { git = "https://github.com/FedorSmirnov89/wasmi.git", rev = "e25791d6ea442b53955b55cc392faa026952a210", package = "wasmi", default-features = true }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1

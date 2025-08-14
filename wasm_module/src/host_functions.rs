@@ -17,13 +17,13 @@ pub(super) fn set_led_state(state: LedState) {
 }
 
 unsafe extern "C" {
-    fn init_led(led_pin: u32);
+    fn init_led();
 }
 
 // Safe wrapper to use function from Rust
-pub(super) fn init_output_pin(pin_number: u32) {
+pub(super) fn init_output_pin() {
     unsafe {
-        init_led(pin_number);
+        init_led();
     }
 }
 

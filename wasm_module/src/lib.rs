@@ -25,7 +25,7 @@ static STATE: Mutex<ModuleState> = Mutex::new(ModuleState { counter: 0 });
 pub extern "C" fn run() {
     log_msg("starting");
 
-    init_output_pin(28);
+    init_output_pin();
     log_msg("initialized");
 
     // Since WASM is always single-threaded, the locking is a no-op
