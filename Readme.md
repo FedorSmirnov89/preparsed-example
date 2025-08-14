@@ -52,3 +52,37 @@ I am getting a binary of around 2.3MiB on my machine for this exact case - a sim
 #### Preparsing the module
 
 Go to the directory `preparse` and preparse the module by running `cargo run --release`. The preparsed module should be available under `preparse/preparsed.wi`.
+
+#### Running the preparsed module
+
+Go to the directory `run_preparsed` and run the module via `cargo run --release`. You should see identical output as when running with option 1:
+
+```
+First call
+module log: starting
+led initialized now
+module log: initialized
+module log: led on
+led is OFF
+Led turned ON
+module log: updating state
+module log: counter: 1
+Second call
+module log: starting
+led already initialized
+module log: initialized
+module log: led off
+led is ON
+Led turned OFF
+module log: updating state
+module log: counter: 2
+Module terminated
+```
+
+Check the binary size using
+
+```
+ls -lh target/release/parse_at_target
+```
+
+I am getting a binary of around 902KiB on my machine for this exact case - a similar project compiled for an embedded platform requires about 250 KiB.
