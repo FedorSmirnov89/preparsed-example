@@ -1,46 +1,94 @@
 //! Lib crate containing code shared between the two crates demonstrating the two options of
 //! running a module
 
-mod host_functions;
 mod state;
 
-use anyhow::{Result, anyhow};
+use anyhow::{Result, bail};
 pub use state::ModuleState;
-use wasmi::{Engine, Instance, Linker, Module, Store};
-
-use crate::host_functions::link_host_functions;
+use wasmi::{AsContext, Caller, Engine, Extern, Func, FuncType, Module, Store};
 
 const MODULE_FUEL: u64 = 1000;
 
-/// Represents the structs required for funning a module
-pub struct Runtime {
-    store: Store<ModuleState>,
-    linker: Linker<ModuleState>,
-}
+pub fn link_externals(
+    module: &Module,
+    engine: &Engine,
+) -> Result<(Vec<Extern>, Store<ModuleState>)> {
+    let state = ModuleState::default();
+    let mut store = Store::new(engine, state);
+    store.set_fuel(MODULE_FUEL)?;
 
-impl Runtime {
-    pub fn new(engine: &Engine) -> Result<Self> {
-        let mut linker = <Linker<ModuleState>>::new(engine);
-        link_host_functions(&mut linker)?;
+    let module_imports = module.imports();
+    let mut externals = Vec::with_capacity(module_imports.len());
 
-        // create state and module store
-        let state = ModuleState::default();
-        let mut store = Store::new(engine, state);
-        store.set_fuel(MODULE_FUEL)?;
-        Ok(Self { store, linker })
+    for import in module_imports {
+        let module_name = import.module();
+        let field_name = import.name();
+        let ty = import.ty();
+
+        match ty {
+            wasmi::ExternType::Func(func_ty) => {
+                let host_func_ty =
+                    FuncType::new(func_ty.params().to_vec(), func_ty.results().to_vec());
+
+                let host_func = match (module_name, field_name) {
+                    ("env", "init_led") => Func::new(
+                        &mut store,
+                        host_func_ty,
+                        move |mut caller: Caller<'_, ModuleState>, _args, _results| {
+                            if caller.data().initialized {
+                                println!("led already initialized");
+                            } else {
+                                caller.data_mut().initialized = true;
+                                println!("led initialized now");
+                            }
+                            Ok(())
+                        },
+                    ),
+
+                    ("env", "set_led") => Func::new(
+                        &mut store,
+                        host_func_ty,
+                        move |mut caller: Caller<'_, ModuleState>, args, _results| {
+                            let led_on = args[0].i32().expect("led_on has to be an int");
+                            caller.data_mut().set_led(led_on == 1);
+                            Ok(())
+                        },
+                    ),
+
+                    ("logging", "log") => Func::new(
+                        &mut store,
+                        host_func_ty,
+                        move |caller: Caller<'_, ModuleState>, args, _results| {
+                            let buffer_ptr = args[0].i32().expect("buffer ptr has to be an int");
+                            let length = args[1].i32().expect("buffer len has to be an int");
+
+                            let memory = caller
+                                .get_export("memory")
+                                .expect("module does not export memory")
+                                .into_memory()
+                                .expect("failed to get memory");
+                            let store = caller.as_context();
+                            let data_start = buffer_ptr as usize;
+                            let data_end = data_start + (length as usize);
+                            let data = &memory.data(&store)[data_start..data_end];
+
+                            let log_msg = str::from_utf8(data).expect("failed to convert string");
+                            println!("module log: {log_msg}");
+                            Ok(())
+                        },
+                    ),
+
+                    (unknown_module, unknown_field) => bail!(
+                        "unexpected function import: module {unknown_module}, name: {unknown_field}"
+                    ),
+                };
+
+                externals.push(Extern::Func(host_func));
+            }
+
+            _ => bail!("unexpected import (not a function)"), // just for the small example
+        }
     }
 
-    pub fn start_module(&mut self, module: &Module) -> Result<Instance> {
-        let started = self
-            .linker
-            .instantiate_and_start(&mut self.store, module)
-            .map_err(|e| anyhow!("failed to instantiate module: {e}"))?;
-        Ok(started)
-    }
-
-    pub fn run_function(&mut self, instance: &Instance) -> Result<()> {
-        let led_fn = instance.get_typed_func::<(), ()>(&mut self.store, "run")?;
-        led_fn.call(&mut self.store, ())?;
-        Ok(())
-    }
+    Ok((externals, store))
 }

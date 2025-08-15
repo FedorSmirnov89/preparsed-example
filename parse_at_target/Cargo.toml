@@ -11,5 +11,5 @@ shared = { path = "../shared" }
 
 [profile.release]
 opt-level = "z"
-lto = true
+lto = "fat"
 codegen-units = 1

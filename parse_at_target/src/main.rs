@@ -7,8 +7,8 @@
 //! This way of running a module requires to have the whole parsing and validation machinery on the target, resuling in larger memory requirements
 
 use anyhow::{Result, anyhow};
-use shared::Runtime;
-use wasmi::{Config, Engine, Module};
+use shared::link_externals;
+use wasmi::{Config, Engine, Instance, Module};
 
 fn main() -> Result<()> {
     // Read in the wasm module (assuming it wasm compiled)
@@ -22,17 +22,22 @@ fn main() -> Result<()> {
     cfg.compilation_mode(wasmi::CompilationMode::Eager);
     let engine = Engine::new(&cfg);
     // Parse module from the .wasm file
-    let module =
-        Module::new(&engine, &wasm_bytes).map_err(|e| anyhow!("failed to load module: {e}"))?;
+    let module = unsafe {
+        Module::new_unchecked(&engine, &wasm_bytes)
+            .map_err(|e| anyhow!("failed to load module: {e}"))?
+    };
 
     // from here on, both option do the same
-    let mut runtime = Runtime::new(&engine)?;
-    let started = runtime.start_module(&module)?;
+    let (externals, mut store) = link_externals(&module, &engine)?;
+    let started = Instance::new(&mut store, &module, &externals)?;
 
     println!("First call");
-    runtime.run_function(&started)?;
+    let run_fn = started.get_typed_func::<(), ()>(&mut store, "run")?;
+    run_fn.call(&mut store, ())?;
+
     println!("Second call");
-    runtime.run_function(&started)?;
+    let run_fn = started.get_typed_func::<(), ()>(&mut store, "run")?;
+    run_fn.call(&mut store, ())?;
 
     println!("Module terminated");
 

@@ -4,8 +4,8 @@
 //! Note that wasmi is pulled in with only the 'deserialization' feature enabled
 
 use anyhow::{Context, Result, anyhow};
-use shared::Runtime;
-use wasmi::preparsed::deserialize_module;
+use shared::link_externals;
+use wasmi::{Instance, preparsed::deserialize_module};
 
 fn main() -> Result<()> {
     // Read in the preparsed bytes (assuming that we compiled the wasm module and then preparsed it)
@@ -16,13 +16,16 @@ fn main() -> Result<()> {
         deserialize_module(&preparsed_bytes).map_err(|e| anyhow!("failed to deser module: {e}"))?;
 
     // from here on, both option do the same
-    let mut runtime = Runtime::new(&engine)?;
-    let started = runtime.start_module(&module)?;
+    let (externals, mut store) = link_externals(&module, &engine)?;
+    let started = Instance::new(&mut store, &module, &externals)?;
 
     println!("First call");
-    runtime.run_function(&started)?;
+    let run_fn = started.get_typed_func::<(), ()>(&mut store, "run")?;
+    run_fn.call(&mut store, ())?;
+
     println!("Second call");
-    runtime.run_function(&started)?;
+    let run_fn = started.get_typed_func::<(), ()>(&mut store, "run")?;
+    run_fn.call(&mut store, ())?;
 
     println!("Module terminated");
 

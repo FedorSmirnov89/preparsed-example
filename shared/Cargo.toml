@@ -7,6 +7,7 @@ edition = "2024"
 wasmi = { git = "https://github.com/FedorSmirnov89/wasmi.git", rev = "fae56e13f33a0cce6ef3a2be5bcfaa96f3671ae5", package = "wasmi", default-features = false }
 
 anyhow = "1.0.99"
+
 [profile.release]
 opt-level = "z"
 lto = true
