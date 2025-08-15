@@ -9,12 +9,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b0674a1ddeecb70197781e945de4b3b8ffb61fa939a5597bcf48503737663100"
 
 [[package]]
-name = "arrayvec"
-version = "0.7.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7c02d123df017efcdfbd739ef81735b36c5ba83ec3c59c80a9d7ecc718f92e50"
-
-[[package]]
 name = "cobs"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -40,12 +34,6 @@ name = "libm"
 version = "0.2.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f9fbbcab51052fe104eb5e5d351cf728d30a5be1fe14d9be8a3b097481fb97de"
-
-[[package]]
-name = "multi-stash"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "685a9ac4b61f4e728e1d2c6a7844609c16527aeb5e6c865915c08e619c16410f"
 
 [[package]]
 name = "postcard"
@@ -115,12 +103,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "smallvec"
-version = "1.15.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "67b1b7a3b5fe4f1376887184045fcf45c69e92af734b7aaddc05fb777b6fbd03"
-
-[[package]]
 name = "spin"
 version = "0.9.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -165,14 +147,11 @@ checksum = "5a5f39404a5da50712a4c1eecf25e90dd62b613502b7e925fd4e4d19b5c96512"
 
 [[package]]
 name = "wasmi"
-version = "0.47.0"
-source = "git+https://github.com/FedorSmirnov89/wasmi.git?rev=1957af0f9c2c9ad5e2860855a7b97a1582777f70#1957af0f9c2c9ad5e2860855a7b97a1582777f70"
+version = "0.51.0"
+source = "git+https://github.com/FedorSmirnov89/wasmi.git?rev=fae56e13f33a0cce6ef3a2be5bcfaa96f3671ae5#fae56e13f33a0cce6ef3a2be5bcfaa96f3671ae5"
 dependencies = [
- "arrayvec",
- "multi-stash",
  "postcard",
  "serde",
- "smallvec",
  "spin",
  "wasmi_collections",
  "wasmi_core",
@@ -181,13 +160,13 @@ dependencies = [
 
 [[package]]
 name = "wasmi_collections"
-version = "0.47.0"
-source = "git+https://github.com/FedorSmirnov89/wasmi.git?rev=1957af0f9c2c9ad5e2860855a7b97a1582777f70#1957af0f9c2c9ad5e2860855a7b97a1582777f70"
+version = "0.51.0"
+source = "git+https://github.com/FedorSmirnov89/wasmi.git?rev=fae56e13f33a0cce6ef3a2be5bcfaa96f3671ae5#fae56e13f33a0cce6ef3a2be5bcfaa96f3671ae5"
 
 [[package]]
 name = "wasmi_core"
-version = "0.47.0"
-source = "git+https://github.com/FedorSmirnov89/wasmi.git?rev=1957af0f9c2c9ad5e2860855a7b97a1582777f70#1957af0f9c2c9ad5e2860855a7b97a1582777f70"
+version = "0.51.0"
+source = "git+https://github.com/FedorSmirnov89/wasmi.git?rev=fae56e13f33a0cce6ef3a2be5bcfaa96f3671ae5#fae56e13f33a0cce6ef3a2be5bcfaa96f3671ae5"
 dependencies = [
  "libm",
  "serde",
@@ -195,8 +174,8 @@ dependencies = [
 
 [[package]]
 name = "wasmi_ir"
-version = "0.47.0"
-source = "git+https://github.com/FedorSmirnov89/wasmi.git?rev=1957af0f9c2c9ad5e2860855a7b97a1582777f70#1957af0f9c2c9ad5e2860855a7b97a1582777f70"
+version = "0.51.0"
+source = "git+https://github.com/FedorSmirnov89/wasmi.git?rev=fae56e13f33a0cce6ef3a2be5bcfaa96f3671ae5#fae56e13f33a0cce6ef3a2be5bcfaa96f3671ae5"
 dependencies = [
  "serde",
  "wasmi_core",

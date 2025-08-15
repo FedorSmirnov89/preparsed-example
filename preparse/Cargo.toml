@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0.99"
-wasmi = { git = "https://github.com/FedorSmirnov89/wasmi.git", rev = "1957af0f9c2c9ad5e2860855a7b97a1582777f70", package = "wasmi", default-features = false, features = [
+wasmi = { git = "https://github.com/FedorSmirnov89/wasmi.git", rev = "fae56e13f33a0cce6ef3a2be5bcfaa96f3671ae5", package = "wasmi", default-features = false, features = [
     "parser",
     "serialization",
 ] }

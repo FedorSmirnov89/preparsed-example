@@ -31,13 +31,10 @@ impl Runtime {
     }
 
     pub fn start_module(&mut self, module: &Module) -> Result<Instance> {
-        let instantiated = self
+        let started = self
             .linker
-            .instantiate(&mut self.store, module)
+            .instantiate_and_start(&mut self.store, module)
             .map_err(|e| anyhow!("failed to instantiate module: {e}"))?;
-        let started = instantiated
-            .start(&mut self.store)
-            .map_err(|e| anyhow!("failed to start module: {e}"))?;
         Ok(started)
     }
 
