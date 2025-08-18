@@ -28,7 +28,8 @@ fn main() -> Result<()> {
     };
 
     // from here on, both option do the same
-    let (externals, mut store) = link_externals(&module, &engine)?;
+    let mut externals = Vec::new();
+    let mut store = link_externals(&module, &engine, &mut externals)?;
     let started = Instance::new(&mut store, &module, &externals)?;
 
     println!("First call");
